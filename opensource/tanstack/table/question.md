@@ -22,3 +22,5 @@
 각 파일의 목적 파악 후에 폴더 성격을 확인할 수 있을 것으로 기대
 
 ----
+
+### 4. /packages/table-core/types.ts에서 `TableMeta` 부분은  제네릭 부분의 색이 나타나지 않고, 바로 하단의 `ColumnMeta`은 제네릭 부분에 밑줄이 쳐져 있고 'All type parameters are unused.' 라는 경고 표시가 뜬다. 왜일까?
