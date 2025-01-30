@@ -11,6 +11,7 @@ export type NoInfer<T> = [T][T extends any ? 0 : never]
   - `T extends any ? 0 : never` : 조건부 타입
   - [0] : 인덱스 접근
     - `T extends any ? 0 : never`에서 T는 항상 true이므로 `[T extends any ? 0 : never]`의 값은 [0]이 됨
+- [Typescript 5.4 버전에서 릴리즈 됨](https://www.typescriptlang.org/docs/handbook/utility-types.html#noinfertype)
 
 ---
 * : 클로드를 이용하여 추론한 답이므로, 사실 검증 필요
