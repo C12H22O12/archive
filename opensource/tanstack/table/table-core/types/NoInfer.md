@@ -20,7 +20,7 @@ export type NoInfer<T> = [T][T extends any ? 0 : never]
 <br />
 <br />
 
-# 예시 코드 1
+## 예시 코드 1
 ``` ts
 const f1 = <C extends string>(colors: C[], color: C) => {
     const result = [] as C[]
@@ -54,7 +54,7 @@ const b2 = f2(["red", "yellor", "green"], "blue")
 <br />
 <br />
 
-# 예시 코드 2
+## 예시 코드 2
 ``` Typescript
 const fn0 = <A extends any>(a0: A, a1: NoInfer<A>): A => {
  return {} as unknown as A // just for the example
@@ -83,7 +83,7 @@ const test2 = fn2('b', 'a')
 <br />
 <br />
 
-# 예시 코드 3
+## 예시 코드 3
 ``` Typescript
 // placeholder for a real express response.send
 const sendResponse = (x: any) => console.log(x);
@@ -99,7 +99,24 @@ sendResult<Num>(sendResponse, { x: "sss" }); // error
 sendResult(sendResponse, { x: 1 }); // error
 ```
 
+# Getter
 
+``` ts
+export type Getter<TValue> = <TTValue = TValue>() => NoInfer<TTValue>
+```
+
+- `TValue` 이외에 다른 타입이 추론되는 것을 방지
+
+## 예제 코드 1
+``` ts
+const myGetter: Getter<string> = () => "hello";
+
+const value1 = myGetter();  // string
+const value2 = myGetter<number>(); // Error (number를 기대하지만 string 반환)
+
+```
+
+- `myGetter`은 string을 반환하도록 제한, 즉 value2에서 number을 넣을 경우 오류 발생
 
 ## 연관 링크
 
