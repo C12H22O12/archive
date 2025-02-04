@@ -57,3 +57,51 @@ export interface FacetedColumn<TData extends RowData> {
 ```
 
 유효한 함수를 전달해야 한다는 주석이 여럿 달려있다. 여기서 '유효한' 함수는 무엇인가?
+
+### 6. 빈 타입들의 목적은 무엇인지?
+``` ts
+export interface FilterMeta {}
+
+export interface FilterFns {}
+
+export interface SortingFns {}
+
+export interface AggregationFns {}
+```
+
+위 타입들은 빈 인터페이스이나 다음과 같이 사용되고 있음
+
+``` ts
+export interface FilterFn<TData extends RowData> {
+  (
+    row: Row<TData>,
+    columnId: string,
+    filterValue: any,
+    addMeta: (meta: FilterMeta) => void
+  ): boolean
+  autoRemove?: ColumnFilterAutoRemoveTestFn<TData>
+  resolveFilterValue?: TransformFilterValueFn<TData>
+}
+
+//
+
+type ResolvedFilterFns = keyof FilterFns extends never
+  ? {
+      filterFns?: Record<string, FilterFn<any>>
+    }
+  : {
+      filterFns: Record<keyof FilterFns, FilterFn<any>>
+    }
+```
+
+---
+
+ 빈 인터페이스는 타입 정보를 제공하지 않고, 모든 객체와 호환된다. 즉 빈 인터페이스는 어떤 객체든 허용하고, 초과 속성 검사(1)를 거치지 않는다(2).
+ 
+이를 이용하여 함수 내에서 객체를 추가적으로 확장할 수 있는 효과를 얻을 수 있다.
+
+**참고**
+
+(1) [Excess Property Checks - TypescriptDocs](https://www.typescriptlang.org/docs/handbook/2/objects.html#excess-property-checks)
+
+(2) [빈 인터페이스는 어떤 객체든 허용하는가? - stackoverflow](https://stackoverflow.com/questions/42537727/empty-interface-allow-any-object)
